@@ -5,11 +5,12 @@ import circle from "/circle.svg";
 import crestic from "/crestic.svg";
 import { useState } from "react";
 import GameOver from "./components/GameOver";
+import Footer from "./Footer";
 
 function App() {
   const [player, setPlayer] = useState(["first", "синих"]);
   const [showDiv, setShowDiv] = useState(false);
-  const [count, setCount] = useState([0,0]);
+  const [count, setCount] = useState([0, 0]);
   const handleSetPlayerGame = () => setPlayerGame(player, setPlayer);
   return (
     <>
@@ -23,7 +24,14 @@ function App() {
         count={count}
         setCount={setCount}
       />
-      {showDiv && <GameOver clearSetca={clearSetca} setShowDiv={setShowDiv} message={checkSetca(setShowDiv, showDiv, setCount, count)}/>}
+      {showDiv && (
+        <GameOver
+          clearSetca={clearSetca}
+          setShowDiv={setShowDiv}
+          message={checkSetca(setShowDiv, showDiv, setCount, count)}
+        />
+      )}
+      <Footer />
     </>
   );
 }
@@ -57,9 +65,11 @@ function printSetca(setPlayer, setShowDiv, showDiv, setCount, count) {
   return arr.map((el, index) => {
     return (
       <img
+        className="setcaComnonent"
         draggable="false"
         onClick={() => {
-          setca[index] == "s" && setSetca(setPlayer, index, setShowDiv, showDiv, setCount, count);
+          setca[index] == "s" &&
+            setSetca(setPlayer, index, setShowDiv, showDiv, setCount, count);
         }}
         key={index}
         src={el}
@@ -72,13 +82,12 @@ function printDiv(setShowDiv) {
   setShowDiv(true);
 }
 
-function printCount(setCount, count, idW){
-  if(count == undefined)
-    return 0;
+function printCount(setCount, count, idW) {
+  if (count == undefined) return 0;
   if (idW == 0) {
-    setCount([count[0] + 1, count[1]])
+    setCount([count[0] + 1, count[1]]);
   } else if (idW == 1) {
-    setCount([count[0], count[1] + 1])
+    setCount([count[0], count[1] + 1]);
   }
 }
 
@@ -94,23 +103,31 @@ function checkSetca(setShowDiv, showDiv, setCount, count) {
   let s = `${s1} ${s2} ${s3} ${s4} ${s5} ${s6} ${s7} ${s8}`.split(" ");
   if (s.indexOf("ooo") != -1) {
     if (!showDiv) {
-      printDiv(setShowDiv)
-      printCount(setCount, count, 0)
-    } 
+      printDiv(setShowDiv);
+      printCount(setCount, count, 0);
+    }
 
     // return `${setca[a] === "o" ? "<span>Синие</span>" : "<span>Красные</span>"} победили`;
-    return <><span id="first">Синие</span> победили</>;
+    return (
+      <>
+        <span id="first">Синие</span> победили
+      </>
+    );
   } else if (s.indexOf("xxx") != -1) {
     if (!showDiv) {
-      printDiv(setShowDiv)
-      printCount(setCount, count, 1)
-    } 
-    return <><span id="second">Красные</span> победили</>;
+      printDiv(setShowDiv);
+      printCount(setCount, count, 1);
+    }
+    return (
+      <>
+        <span id="second">Красные</span> победили
+      </>
+    );
   } else if (setca.join("").split("s").length - 1 == 0) {
     if (!showDiv) {
-      printDiv(setShowDiv)
+      printDiv(setShowDiv);
     }
-    return "Ничья"
+    return "Ничья";
   }
 }
 
@@ -123,7 +140,14 @@ function setPlayerGame(player, setPlayer) {
   return player[0];
 }
 
-function setSetca(handleSetPlayerGame, id, setShowDiv, showDiv, setCount, count) {
+function setSetca(
+  handleSetPlayerGame,
+  id,
+  setShowDiv,
+  showDiv,
+  setCount,
+  count
+) {
   if (showDiv) {
     return 0;
   }
